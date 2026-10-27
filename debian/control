@@ -159,6 +159,20 @@ Recommends: radxa-desktop-branding,
 Description: Common system config files
  This package provides Debian trixie system config files.
 
+Package: radxa-system-config-rockchip-audio
+Architecture: all
+Section: sound
+Priority: optional
+Replaces: radxa-system-config-rock4d-audio,
+Conflicts: rockchip-alsa-config,
+           radxa-system-config-rock4d-audio,
+Depends: alsa-utils,
+         wireplumber (>= 0.5),
+         ${misc:Depends},
+Description: Audio configuration for ROCK 4D
+ This package enables the ES8388 OUT1 mixer control during ALSA
+ initialization and supplies HDMI device naming for WirePlumber on ROCK 4D.
+
 Package: radxa-system-config-rockchip-kwin-gles
 Architecture: all
 Section: x11
