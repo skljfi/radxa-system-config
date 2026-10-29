@@ -12,8 +12,20 @@ provides standard-SONAME forwarding libraries; standalone libmali symlinks
 cannot replace them. DMA heap access is granted to
 the `render` group and the active local session, including the GDM greeter.
 
+In Mali mode, the service also enables QtWayland's existing Mali surface
+lifetime handling (QTBUG-127980) for `plasmashell` through
+`/run/radxa-gpu/plasmashell.env`. Debian's Qt can query the GLVND renderer
+instead of the non-GLVND Mali EGL context and miss its automatic Mali check.
+`QT_WAYLAND_ENABLE_DONECURRENT_WORKAROUND=1` releases the current EGL binding
+at frame end, avoiding accesses to an old Wayland surface after destruction.
+Plasma keeps threaded rendering and Mali hardware acceleration. The environment
+file is regenerated empty in Mesa mode; other applications are unaffected.
+
+Upstream: https://github.com/qt/qtwayland/commit/125af88b2c498a57bce2135a806cf940904afe86
+
 ```sh
 cat /run/radxa-gpu/mode
+cat /run/radxa-gpu/plasmashell.env
 systemctl status radxa-gpu-select.service display-manager.service
 ldconfig -p | grep -E 'lib(EGL|GLESv2|gbm)\.so'
 # Run from the logged-in Plasma session:

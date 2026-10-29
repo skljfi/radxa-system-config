@@ -26,5 +26,11 @@ umask 022
 printf '%s\n' "$library_dir" >"$runtime/ld.so.conf.new"
 mv -f "$runtime/ld.so.conf.new" "$runtime/ld.so.conf"
 /sbin/ldconfig
+# Qt's GLVND renderer query can miss non-GLVND Mali. Enable QTBUG-127980's
+# surface lifetime handling for Plasma without disabling threaded rendering.
+if [ "$mode" = mali ]; then
+    printf '%s\n' 'QT_WAYLAND_ENABLE_DONECURRENT_WORKAROUND=1'
+fi >"$runtime/plasmashell.env.new"
+mv -f "$runtime/plasmashell.env.new" "$runtime/plasmashell.env"
 printf '%s\n' "$mode" >"$runtime/mode"
 echo "radxa-gpu-select: selected $mode"
