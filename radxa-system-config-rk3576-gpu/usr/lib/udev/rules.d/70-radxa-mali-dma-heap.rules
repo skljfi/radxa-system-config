@@ -1,0 +1,2 @@
+SUBSYSTEM=="dma_heap", KERNEL=="system", GROUP="render", MODE="0660", TAG+="uaccess"
+SUBSYSTEM=="dma_heap", KERNEL=="system-uncached", GROUP="render", MODE="0660", TAG+="uaccess"

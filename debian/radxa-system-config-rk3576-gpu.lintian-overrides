@@ -1,0 +1,4 @@
+# Selecting between coinstalled vendor and Mesa libraries is this package's purpose.
+radxa-system-config-rk3576-gpu: package-modifies-ld.so-search-path [etc/ld.so.conf.d/00-00-radxa-gpu.conf]
+# Private systemd service helper; usage and deployment are documented in README.md.
+radxa-system-config-rk3576-gpu: no-manual-page [usr/libexec/radxa-gpu-select]

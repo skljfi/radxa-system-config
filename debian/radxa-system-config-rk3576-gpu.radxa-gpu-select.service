@@ -1,0 +1,13 @@
+[Unit]
+Description=Select RK3576 GPU userspace libraries
+After=systemd-udev-trigger.service systemd-modules-load.service
+Before=display-manager.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/libexec/radxa-gpu-select
+RemainAfterExit=yes
+TimeoutStartSec=30
+
+[Install]
+WantedBy=graphical.target

@@ -7,3 +7,4 @@ override_dh_installudev:
 override_dh_installsystemd:
 	dh_installsystemd --name=hdmi-toggle-once
 	dh_installsystemd --name=unload-tc956x
+	dh_installsystemd -pradxa-system-config-rk3576-gpu --name=radxa-gpu-select --no-restart-after-upgrade

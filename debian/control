@@ -186,6 +186,24 @@ Description: OpenGL ES configuration for KWin Wayland on ROCK 4D
  This package selects OpenGL ES compositing for the KWin Wayland user
  service on ROCK 4D. The setting takes effect on the next session start.
 
+Package: radxa-system-config-rk3576-gpu
+Architecture: all
+Section: x11
+Priority: optional
+Depends: libegl1,
+         libegl-mesa0,
+         libgles1,
+         libgles2,
+         libgbm1,
+         libgl1-mesa-dri,
+         libmali-bifrost-g52-g29p1 (>= 1.10-1),
+         systemd,
+         udev,
+         ${misc:Depends},
+Description: Automatic GPU userspace selection for Rockchip RK3576
+ This package selects Mesa or the Mali-G52 vendor libraries according to
+ the GPU driver bound at boot, before the display manager starts.
+
 Package: radxa-system-config-tigervnc-kde
 Architecture: all
 Priority: optional

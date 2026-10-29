@@ -1,0 +1,30 @@
+#!/bin/sh
+set -eu
+
+runtime=/run/radxa-gpu
+system_lib=/usr/lib/aarch64-linux-gnu
+library_dir=$system_lib
+mode=mesa
+
+# Module-backed GPUs must finish probing before choosing the userspace stack.
+udevadm settle --timeout=10
+
+if [ -r /proc/device-tree/compatible ] &&
+    tr '\000' '\n' </proc/device-tree/compatible | grep -qx 'rockchip,rk3576'; then
+    for device in /sys/bus/platform/drivers/mali/*; do
+        if [ -L "$device/driver" ] && [ -d "$device/of_node" ]; then
+            mode=mali
+            library_dir=$system_lib/mali
+            break
+        fi
+    done
+fi
+
+install -d -m 0755 "$runtime"
+umask 022
+# Override the vendor package's unconditional library priority in Mesa mode.
+printf '%s\n' "$library_dir" >"$runtime/ld.so.conf.new"
+mv -f "$runtime/ld.so.conf.new" "$runtime/ld.so.conf"
+/sbin/ldconfig
+printf '%s\n' "$mode" >"$runtime/mode"
+echo "radxa-gpu-select: selected $mode"
